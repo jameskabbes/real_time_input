@@ -1,6 +1,9 @@
-import sys
-sys_args = sys.argv[1:]
+import real_time_input
 
-from real_time_input.real_time_input import run
-run( *sys_args )
+RTI = real_time_input.RealTimeInput()
 
+print ('Type to add words to your selection: ')
+RTI.get_multiple_inputs()
+print ()
+print ('Selections: ' + str(RTI.selections))
+print ('Final Input: ' + RTI.string)

@@ -173,12 +173,3 @@ class RealTimeInput( ParentClass ):
 
         return self.selections, self.string
 
-
-def run( *sys_args ):
-
-    rti = RealTimeInput()
-    rti.get_multiple_inputs()
-
-if __name__ == '__main__':
-
-    run()
