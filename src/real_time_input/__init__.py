@@ -1,4 +1,4 @@
-from .real_time_input import RealTimeInput
+from .real_time_input_main import *
 
 import dir_ops as do
 import os
