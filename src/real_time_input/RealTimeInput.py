@@ -1,45 +1,16 @@
+import real_time_input as rti
 from parent_class import ParentClass
-import platform
 import sys
-
-key_mapping = {
-  'Windows': {
-    '\r': 'ENTER', #all values need to be longer than one character to not confuse with an input
-    '\t': 'TAB',
-    '\x08': 'BACKSPACE'
-  },
-  'Darwin': {
-    '\n': 'ENTER',
-    '\t': 'TAB',
-    '\x7f': 'BACKSPACE',
-    '\x1b': 'ESCAPE'
-  }
-}
-
-# First, see what kind of platform we are running on
-platform_system = platform.system()
-if platform_system == 'Darwin' or platform_system == 'Linux': # Linux and Mac behave the same
-    platform_system = 'Darwin'
-    import termios
-    import tty
-
-elif platform_system == 'Windows':
-    import msvcrt
-
-phonetic_alphabet = ['alpha','bravo','charlie','delta','echo','foxtrot','golf','hotel',
-    'india','juliett','kilo','lima','mike','november','oscar','papa','quebec','romeo',
-    'sierra','tango','uniform','victor','whiskey','xray','yankee','zulu']
-
 
 class RealTimeInput( ParentClass ):
 
     def __init__(self, **kwargs):
 
         ParentClass.__init__( self )
-        self.catalog = phonetic_alphabet
+        self.catalog = rti.PHONETIC_ALPHABET
 
         self.set_atts( kwargs )
-        self.platform_system = platform_system
+        self.platform_system = rti.PLATFORM_SYSTEM
 
     def get_input( self, return_raw_key = False ):
 
@@ -47,25 +18,25 @@ class RealTimeInput( ParentClass ):
 
         def Darwin():
 
-            filedescriptors = termios.tcgetattr(sys.stdin)
-            tty.setcbreak(sys.stdin)
+            filedescriptors = rti.termios.tcgetattr(sys.stdin)
+            rti.tty.setcbreak(sys.stdin)
             key = sys.stdin.read(1)[0]
-            termios.tcsetattr(sys.stdin, termios.TCSADRAIN,filedescriptors)
+            rti.termios.tcsetattr(sys.stdin, rti.termios.TCSADRAIN,filedescriptors)
             return key
 
         def Windows():
 
             while True:
-                if msvcrt.kbhit(): #key is pressed
-                    key = msvcrt.getwch() #decode
+                if rti.msvcrt.kbhit(): #key is pressed
+                    key = rti.msvcrt.getwch() #decode
                     return key
 
         #call Darwin() or Windows()
         key = eval( self.platform_system + '()' )
 
         # if given that is contained in key_mappings
-        if key in key_mapping[ self.platform_system ] and not return_raw_key:
-            return key_mapping[ self.platform_system ][ key ] #returns ENTER, TAB, etc.
+        if key in rti.key_mapping[ self.platform_system ] and not return_raw_key:
+            return rti.key_mapping[ self.platform_system ][ key ] #returns ENTER, TAB, etc.
 
         # something was input that is not in key_mapping, like a regular character
         else:
