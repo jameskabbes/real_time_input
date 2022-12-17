@@ -81,7 +81,7 @@ class RealTimeInput( ParentClass ):
         key_encoded = key.encode('utf-8')
         print ('KEY ENCODED: ' + str(key_encoded))
 
-    def prepare_autocomplete( self ):
+    def prepare_autocomplete( self, **kwargs ):
 
         '''returns the string which shows the autocomplete prompt'''
 
@@ -91,7 +91,7 @@ class RealTimeInput( ParentClass ):
         else:
             self.display = '{string} - ({i}/{n}) - {suggestion}'.format( string = self.string, i = self.suggestion_index+1, n = len(self.suggestions), suggestion = self.suggestions[self.suggestion_index] )
 
-    def search( self ):
+    def search( self, **kwargs ):
 
         '''returns a list of strings contained in "catalog" which contain "string" '''
 
@@ -109,7 +109,7 @@ class RealTimeInput( ParentClass ):
         print (blank, end = '\r')
         print (self.display, end = '\r')
 
-    def get_one_input( self ):
+    def get_one_input( self, search_kwargs = {}, autocomplete_kwargs = {} ):
 
         self.suggestion_index = 0
         self.string = ''
@@ -138,12 +138,12 @@ class RealTimeInput( ParentClass ):
                 self.string += key
 
             # find which words contain "string"
-            self.search()
+            self.search( **search_kwargs )
             if len(self.suggestions) > 0:
                 self.suggestion_index = self.suggestion_index % len(self.suggestions)
 
             # prepare autocomplete and display the feedback
-            self.prepare_autocomplete()
+            self.prepare_autocomplete( **autocomplete_kwargs )
             self.print_updated()
             self.prior_display = self.display
 
@@ -155,14 +155,14 @@ class RealTimeInput( ParentClass ):
 
         return  self.suggestion, self.string
 
-    def get_multiple_inputs( self ):
+    def get_multiple_inputs( self, **kwargs ):
 
         '''given a list of strings to be searched, let the user search for the words using autocomplete'''
 
         self.selections = []
         while True:
 
-            self.suggestion, self.string= self.get_one_input()
+            self.suggestion, self.string= self.get_one_input( **kwargs )
 
             if self.suggestion != None:
                 self.selections.append( self.suggestion )
