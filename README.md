@@ -19,7 +19,7 @@ import real_time_input as rti
 ```
 
 ```python
-RTI_inst = rti.RealTimeInput()
+RTI_inst = rti.RealTimeInput( catalog = ['Alpha','Bravo','Charlie'] )
 ```
 
 ```python
