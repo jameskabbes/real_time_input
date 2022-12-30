@@ -26,6 +26,8 @@ RTI_inst = rti.RealTimeInput( catalog = ['Alpha','Bravo','Charlie'] )
 RTI_inst.get_multiple_inputs()
 ```
 
+![](static/Python%20Terminal.gif)
+
 <br>
 
 # Author
