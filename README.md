@@ -3,6 +3,7 @@
 
 # real_time_input
 Provides functionality for getting real time inputs from user
+Check out the blog post on medium related to this repository: [Medium](https://medium.com/@jameskabbes/real-time-input-in-python-e6d6bfc38ddb)
 
 <br> 
 
