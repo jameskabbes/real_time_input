@@ -8,9 +8,9 @@ class RealTimeInput( ParentClass ):
 
         ParentClass.__init__( self )
         self.catalog = rti.PHONETIC_ALPHABET
+        self.platform_system = rti.PLATFORM_SYSTEM
 
         self.set_atts( kwargs )
-        self.platform_system = rti.PLATFORM_SYSTEM
 
     def get_input( self, return_raw_key = False ):
 
@@ -108,7 +108,7 @@ class RealTimeInput( ParentClass ):
                 self.suggestion_index = 0
                 self.string += key
 
-            # find which words contain "string"
+            # find which words contain string
             self.search( **search_kwargs )
             if len(self.suggestions) > 0:
                 self.suggestion_index = self.suggestion_index % len(self.suggestions)
