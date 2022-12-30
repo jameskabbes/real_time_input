@@ -9,14 +9,15 @@ class RealTimeInput( ParentClass ):
         ParentClass.__init__( self )
         self.catalog = rti.PHONETIC_ALPHABET
         self.platform_system = rti.PLATFORM_SYSTEM
+        self.key_mapping = rti.KEY_MAPPING
 
-        self.set_atts( kwargs )
+        self.set_atts( kwargs ) #override any of the above atts by passing in kwargs
 
     def get_input( self, return_raw_key = False ):
 
         '''returns the key that was pressed by the user, function does not terminate until a key is pressed'''
 
-        def Darwin():
+        def Linux():
 
             filedescriptors = rti.termios.tcgetattr(sys.stdin)
             rti.tty.setcbreak(sys.stdin)
@@ -35,8 +36,8 @@ class RealTimeInput( ParentClass ):
         key = eval( self.platform_system + '()' )
 
         # if given that is contained in key_mappings
-        if key in rti.key_mapping[ self.platform_system ] and not return_raw_key:
-            return rti.key_mapping[ self.platform_system ][ key ] #returns ENTER, TAB, etc.
+        if key in self.key_mapping[ self.platform_system ] and not return_raw_key:
+            return self.key_mapping[ self.platform_system ][ key ] #returns ENTER, TAB, etc.
 
         # something was input that is not in key_mapping, like a regular character
         else:
