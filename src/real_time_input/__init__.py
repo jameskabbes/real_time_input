@@ -1,5 +1,8 @@
 import os
 import platform
+import dir_ops as do
+
+_Dir = do.Dir( os.path.abspath( __file__ ) ).ascend()   #Dir that contains the package 
 
 KEY_MAPPING = {
   'Windows': {
@@ -24,10 +27,5 @@ if PLATFORM_SYSTEM == 'Darwin' or PLATFORM_SYSTEM == 'Linux': # Linux and Mac be
 
 elif PLATFORM_SYSTEM == 'Windows':
     import msvcrt
-
-PHONETIC_ALPHABET = ['alpha','bravo','charlie','delta','echo','foxtrot','golf','hotel',
-    'india','juliett','kilo','lima','mike','november','oscar','papa','quebec','romeo',
-    'sierra','tango','uniform','victor','whiskey','xray','yankee','zulu']
-
 
 from .RealTimeInput import RealTimeInput

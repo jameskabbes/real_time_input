@@ -1,17 +1,17 @@
 import real_time_input as rti
-from parent_class import ParentClass
+import kabbes_client
 import sys
 
-class RealTimeInput( ParentClass ):
+class RealTimeInput( kabbes_client.Client ):
 
-    def __init__(self, **kwargs):
+    _CONFIG = {
+        '_Dir': rti._Dir,
+        "PLATFORM_SYSTEM": rti.PLATFORM_SYSTEM,
+        'KEY_MAPPING': rti.KEY_MAPPING
+    }
 
-        ParentClass.__init__( self )
-        self.catalog = rti.PHONETIC_ALPHABET
-        self.platform_system = rti.PLATFORM_SYSTEM
-        self.key_mapping = rti.KEY_MAPPING
-
-        self.set_atts( kwargs ) #override any of the above atts by passing in kwargs
+    def __init__(self, *args, **kwargs):
+        kabbes_client.Client.__init__( self, *args, **kwargs )
 
     def get_input( self, return_raw_key = False ):
 
@@ -33,11 +33,11 @@ class RealTimeInput( ParentClass ):
                     return key
 
         #call Darwin() or Windows()
-        key = eval( self.platform_system + '()' )
+        key = eval( self.cfg.PLATFORM_SYSTEM + '()' )
 
         # if given that is contained in key_mappings
-        if key in self.key_mapping[ self.platform_system ] and not return_raw_key:
-            return self.key_mapping[ self.platform_system ][ key ] #returns ENTER, TAB, etc.
+        if key in self.cfg.KEY_MAPPING.get_attr(self.cfg.PLATFORM_SYSTEM).get_dict() and not return_raw_key:
+            return self.cfg.KEY_MAPPING.get_attr(self.cfg.PLATFORM_SYSTEM).get_attr(key) #returns ENTER, TAB, etc.
 
         # something was input that is not in key_mapping, like a regular character
         else:
@@ -69,7 +69,7 @@ class RealTimeInput( ParentClass ):
 
         self.suggestions = []
         if len(self.string) > 0:
-            for word in self.catalog:
+            for word in self.cfg.get_attr('catalog',use_ref=True):
                 if self.string.lower() in word.lower():
                     self.suggestions.append( word )
 
