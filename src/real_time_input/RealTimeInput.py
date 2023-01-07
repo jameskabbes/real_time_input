@@ -33,11 +33,12 @@ class RealTimeInput( kabbes_client.Client ):
                     return key
 
         #call Darwin() or Windows()
-        key = eval( self.cfg.PLATFORM_SYSTEM + '()' )
+        key = eval( self.cfg['PLATFORM_SYSTEM'] + '()' )
 
         # if given that is contained in key_mappings
-        if key in self.cfg.KEY_MAPPING.get_attr(self.cfg.PLATFORM_SYSTEM).get_dict() and not return_raw_key:
-            return self.cfg.KEY_MAPPING.get_attr(self.cfg.PLATFORM_SYSTEM).get_attr(key) #returns ENTER, TAB, etc.
+        system_key_mappings = self.cfg['KEY_MAPPING'][ self.cfg['PLATFORM_SYSTEM'] ].get_dict()
+        if key in system_key_mappings and not return_raw_key:
+            return system_key_mappings[key] #returns ENTER, TAB, etc.
 
         # something was input that is not in key_mapping, like a regular character
         else:
@@ -69,7 +70,7 @@ class RealTimeInput( kabbes_client.Client ):
 
         self.suggestions = []
         if len(self.string) > 0:
-            for word in self.cfg.get_attr('catalog',use_ref=True):
+            for word in self.cfg['catalog']:
                 if self.string.lower() in word.lower():
                     self.suggestions.append( word )
 
