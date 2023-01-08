@@ -1,8 +1,9 @@
+from parent_class import ParentClass
 import real_time_input as rti
-import kabbes_client
+import kabbes_user_client
 import sys
 
-class RealTimeInput( kabbes_client.Client ):
+class RealTimeInput( ParentClass ):
 
     _CONFIG = {
         '_Dir': rti._Dir,
@@ -10,8 +11,10 @@ class RealTimeInput( kabbes_client.Client ):
         'KEY_MAPPING': rti.KEY_MAPPING
     }
 
+    cfg = kabbes_user_client.Client( dict = _CONFIG ).cfg
+
     def __init__(self, *args, **kwargs):
-        kabbes_client.Client.__init__( self, *args, **kwargs )
+        ParentClass.__init__( self )
 
     def get_input( self, return_raw_key = False ):
 
