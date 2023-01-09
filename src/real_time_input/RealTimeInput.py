@@ -1,19 +1,10 @@
 from parent_class import ParentClass
 import real_time_input as rti
-import kabbes_user_client
 import sys
 
 class RealTimeInput( ParentClass ):
 
-    _CONFIG = {
-        '_Dir': rti._Dir,
-        "PLATFORM_SYSTEM": rti.PLATFORM_SYSTEM,
-        'KEY_MAPPING': rti.KEY_MAPPING
-    }
-
-    cfg = kabbes_user_client.Client( dict = _CONFIG ).cfg
-
-    def __init__(self, *args, **kwargs):
+    def __init__( self ):
         ParentClass.__init__( self )
 
     def get_input( self, return_raw_key = False ):
@@ -36,10 +27,10 @@ class RealTimeInput( ParentClass ):
                     return key
 
         #call Darwin() or Windows()
-        key = eval( self.cfg['PLATFORM_SYSTEM'] + '()' )
+        key = eval( self.cfg_rti['PLATFORM_SYSTEM'] + '()' )
 
         # if given that is contained in key_mappings
-        system_key_mappings = self.cfg['KEY_MAPPING'][ self.cfg['PLATFORM_SYSTEM'] ].get_dict()
+        system_key_mappings = self.cfg_rti['KEY_MAPPING'][ self.cfg_rti['PLATFORM_SYSTEM'] ].get_dict()
         if key in system_key_mappings and not return_raw_key:
             return system_key_mappings[key] #returns ENTER, TAB, etc.
 
@@ -73,7 +64,7 @@ class RealTimeInput( ParentClass ):
 
         self.suggestions = []
         if len(self.string) > 0:
-            for word in self.cfg['catalog']:
+            for word in self.cfg_rti['catalog']:
                 if self.string.lower() in word.lower():
                     self.suggestions.append( word )
 

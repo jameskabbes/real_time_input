@@ -29,3 +29,4 @@ elif PLATFORM_SYSTEM == 'Windows':
     import msvcrt
 
 from .RealTimeInput import RealTimeInput
+from .Client import Client
