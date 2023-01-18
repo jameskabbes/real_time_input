@@ -1,6 +1,5 @@
 import kabbes_client
 import real_time_input
-import py_starter as ps
 
 class Client( real_time_input.RealTimeInput ):
 
