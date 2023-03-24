@@ -1,17 +1,11 @@
-import real_time_input as rti
 from parent_class import ParentClass
+import real_time_input as rti
 import sys
 
 class RealTimeInput( ParentClass ):
 
-    def __init__(self, **kwargs):
-
+    def __init__( self ):
         ParentClass.__init__( self )
-        self.catalog = rti.PHONETIC_ALPHABET
-        self.platform_system = rti.PLATFORM_SYSTEM
-        self.key_mapping = rti.KEY_MAPPING
-
-        self.set_atts( kwargs ) #override any of the above atts by passing in kwargs
 
     def get_input( self, return_raw_key = False ):
 
@@ -33,11 +27,12 @@ class RealTimeInput( ParentClass ):
                     return key
 
         #call Darwin() or Windows()
-        key = eval( self.platform_system + '()' )
+        key = eval( self.cfg_rti['PLATFORM_SYSTEM'] + '()' )
 
         # if given that is contained in key_mappings
-        if key in self.key_mapping[ self.platform_system ] and not return_raw_key:
-            return self.key_mapping[ self.platform_system ][ key ] #returns ENTER, TAB, etc.
+        system_key_mappings = self.cfg_rti['KEY_MAPPING'][ self.cfg_rti['PLATFORM_SYSTEM'] ].get_dict()
+        if key in system_key_mappings and not return_raw_key:
+            return system_key_mappings[key] #returns ENTER, TAB, etc.
 
         # something was input that is not in key_mapping, like a regular character
         else:
@@ -69,7 +64,7 @@ class RealTimeInput( ParentClass ):
 
         self.suggestions = []
         if len(self.string) > 0:
-            for word in self.catalog:
+            for word in self.cfg_rti['catalog']:
                 if self.string.lower() in word.lower():
                     self.suggestions.append( word )
 
