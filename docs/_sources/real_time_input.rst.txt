@@ -1,0 +1,29 @@
+real\_time\_input package
+=========================
+
+Submodules
+----------
+
+real\_time\_input.Client module
+-------------------------------
+
+.. automodule:: real_time_input.Client
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+real\_time\_input.RealTimeInput module
+--------------------------------------
+
+.. automodule:: real_time_input.RealTimeInput
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: real_time_input
+   :members:
+   :undoc-members:
+   :show-inheritance:
